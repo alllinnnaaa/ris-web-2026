@@ -16,3 +16,7 @@ Vue 3 + ASP.NET Core + PostgreSQL (код будет добавлен в сле�
 ## Документы
 - docs/project-proposal.md — заявка на тему
 - docs/lab-01-requirements.md — техническое задание
+- docs/architecture.md — архитектура
+- docs/data-model.md — модель данных и 3НФ
+- docs/api-contract.md — контракт API
+- docs/requirements-matrix.md — матрица требований
