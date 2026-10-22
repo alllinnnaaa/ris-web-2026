@@ -20,3 +20,12 @@ Vue 3 + ASP.NET Core + PostgreSQL (код будет добавлен в сле�
 - docs/data-model.md — модель данных и 3НФ
 - docs/api-contract.md — контракт API
 - docs/requirements-matrix.md — матрица требований
+## Запуск клиента
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Открыть адрес Vite, обычно http://localhost:5173
