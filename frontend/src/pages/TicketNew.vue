@@ -1,23 +1,23 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { addItem } from '../ticketsStore'
+import { createTicket, describeError } from '../api/tickets'
 
 const router = useRouter()
 
-const form = ref({
-  title: '',
-  meterId: null,
-  description: ''
-})
-
+const form = ref({ title: '', meterId: null, description: '' })
 const errors = ref({ title: '', meterId: '', description: '' })
+const isSubmitting = ref(false)
+const serverError = ref('')
 
-function onCreate() {
+async function onCreate() {
+  if (isSubmitting.value) return
+
   const title = form.value.title.trim()
   const description = form.value.description.trim()
   const meterId = form.value.meterId
 
+  serverError.value = ''
   errors.value = { title: '', meterId: '', description: '' }
 
   if (title.length < 5 || title.length > 80) {
@@ -29,15 +29,20 @@ function onCreate() {
   if (description.length < 10 || description.length > 500) {
     errors.value.description = 'Описание: от 10 до 500 символов'
   }
-
   if (errors.value.title || errors.value.meterId || errors.value.description) {
     return
   }
 
-  addItem({ title, meterId, description })
-
-  form.value = { title: '', meterId: null, description: '' }
-  router.push('/')
+  isSubmitting.value = true
+  try {
+    await createTicket({ title, meterId, description })
+    form.value = { title: '', meterId: null, description: '' }
+    router.push('/')
+  } catch (e) {
+    serverError.value = describeError(e)
+  } finally {
+    isSubmitting.value = false
+  }
 }
 </script>
 
@@ -58,7 +63,11 @@ function onCreate() {
         <textarea id="description" name="description" rows="4" v-model="form.description"></textarea>
         <p v-if="errors.description" class="error">{{ errors.description }}</p>
 
-        <button type="submit" class="primary">Создать</button>
+        <p v-if="serverError" class="notice notice-error">{{ serverError }}</p>
+
+        <button type="submit" class="primary" :disabled="isSubmitting">
+          {{ isSubmitting ? 'Создаём…' : 'Создать' }}
+        </button>
       </form>
     </section>
   </main>
