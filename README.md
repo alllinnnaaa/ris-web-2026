@@ -29,3 +29,20 @@ npm run dev
 ```
 
 Открыть адрес Vite, обычно http://localhost:5173
+## Запуск сервера (backend)
+
+```bash
+cd backend
+dotnet restore
+dotnet run
+```
+
+- API: http://localhost:5000
+- Swagger: http://localhost:5000/swagger
+- Проверка живости: http://localhost:5000/health
+- Сведения о приложении: http://localhost:5000/info
+
+Ограничения ЛР7:
+- данные заявок пока в памяти, после перезапуска пропадут;
+- /health проверяет только живость процесса, а не создание заявки;
+- настоящее создание заявок появится в ЛР8.

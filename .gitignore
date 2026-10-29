@@ -431,3 +431,6 @@ dist/
 .DS_Store
 .env
 !.env.example
+**/bin/
+**/obj/
+.vs/
